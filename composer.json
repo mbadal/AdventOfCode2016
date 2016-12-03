@@ -1,0 +1,17 @@
+{
+    "name": "delve/advent-of-code",
+    "authors": [
+        {
+            "name": "Matej Badal",
+            "email": "matejbadal@gmail.com"
+        }
+    ],
+    "require": {
+		"php": ">=7.0.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"AdventOfCode\\": "src/AdventOfCode"
+		}
+	}
+}
