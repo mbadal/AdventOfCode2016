@@ -1,6 +1,6 @@
 <?php namespace AdventOfCode\Assignment;
 
-use AdventOfCode\Solver\Solver;
+use AdventOfCode\Solver\Solver1;
 use AdventOfCode\FileReader;
 
 abstract class AssignmentAbstract {
@@ -11,10 +11,10 @@ abstract class AssignmentAbstract {
     /** @var  FileReader */
     protected $reader;
 
-    /** @var  Solver */
+    /** @var  Solver1 */
     protected $solver;
 
-    public function __construct(string $projectRootPath) {
+    public function __construct($projectRootPath) {
         $filePath     = $projectRootPath . '/input/' . static::DIR_NAME . '/' . static::INPUT_NAME;
         $this->reader = new FileReader($filePath);
     }
@@ -22,7 +22,7 @@ abstract class AssignmentAbstract {
     public function solve() {
         $this->reader->readFile();
         $fileContents = $this->reader->getFileContents();
-        $this->solver = new Solver($fileContents);
-        $this->solver->solve1();
+        $this->solver = new Solver1($fileContents);
+        $this->solver->solve();
     }
 }

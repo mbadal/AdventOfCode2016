@@ -1,6 +1,6 @@
 <?php namespace AdventOfCode\Solver;
 
-class Solver {
+class Solver1 extends SolverAbstract {
 
     const DIRECTION_LEFT  = 'L';
     const DIRECTION_RIGHT = 'R';
@@ -14,7 +14,7 @@ class Solver {
         $this->riddleInput = $riddleInput;
     }
 
-    public function solve1() {
+    public function solve() {
         $items = explode(', ', $this->riddleInput);
 
         $actualDirection = null;
@@ -24,10 +24,22 @@ class Solver {
             self::DIRECTION_UP    => 0,
             self::DIRECTION_DOWN  => 0,
         ];
+
+        $visitedPoints          = [
+            '0:0' => true,
+        ];
+        $firstPointVisitedTwice = null;
+        $initialPosition        = [
+            'x' => 0,
+            'y' => 0,
+        ];
         foreach ($items as $counter => $item) {
             $temp          = self::parseDirection($item);
             $nextDirection = $temp[0];
             $stepsToGo     = $temp[1];
+            if (isset($tempActualPosition)) {
+                $initialPosition = $tempActualPosition;
+            }
 
             if (is_null($actualDirection)) {
                 $actualDirection = $nextDirection === self::DIRECTION_LEFT ? self::DIRECTION_LEFT : self::DIRECTION_RIGHT;
@@ -43,18 +55,50 @@ class Solver {
                 }
 
             }
-
-            $moves[$actualDirection] += $stepsToGo;
             echo "Next movement: [{$item}]", "<br>";
             echo "Direction: [{$actualDirection}]", "<br>";
+            echo "Initial position: x -> [{$initialPosition['x']}], y -> [{$initialPosition['y']}]", '<br>';
+
+            $moves[$actualDirection] += $stepsToGo;
+            $tempActualPosition = self::calculateFinalPositionNotAbsolute($moves);
+
+            for ($i = 1; $i <= $stepsToGo; $i++) {
+                $x = $initialPosition['x'];
+                $y = $initialPosition['y'];
+                if ($actualDirection === self::DIRECTION_LEFT || $actualDirection === self::DIRECTION_RIGHT) {
+                    if ($actualDirection === self::DIRECTION_LEFT) {
+                        $x -= $i;
+                    } else {
+                        $x += $i;
+                    }
+                } else {
+                    if ($actualDirection === self::DIRECTION_UP) {
+                        $y += $i;
+                    } else {
+                        $y -= $i;
+                    }
+                }
+
+                echo "going to position: x -> [{$x}], y -> [{$y}]", '<br>';
+                $coordinatesString = self::getCoordinatesString($x, $y);
+                if (is_null($firstPointVisitedTwice) && isset($visitedPoints[$coordinatesString])) {
+                    $firstPointVisitedTwice = [
+                        'x' => $x,
+                        'y' => $y,
+                    ];
+                }
+                $visitedPoints[$coordinatesString] = true;
+            }
             echo '----------------------------------------', "<br>", "<br>";
         }
 
         var_dump($moves);
         $finalPosition = self::calculateFinalPosition($moves);
-        var_dump($finalPosition);
 
+        var_dump($finalPosition);
         var_dump($finalPosition['x'] + $finalPosition['y']);
+
+        echo "First point`s visited twice coordinates: x: [{$firstPointVisitedTwice['x']}], y: [{$firstPointVisitedTwice['y']}]";
     }
 
     private static function parseDirection($input) {
@@ -74,5 +118,17 @@ class Solver {
         $result['y'] = abs(($moves[self::DIRECTION_UP] - $moves[self::DIRECTION_DOWN]));
 
         return $result;
+    }
+
+    private static function calculateFinalPositionNotAbsolute(array $moves) {
+
+        return [
+            'x' => $moves[self::DIRECTION_RIGHT] - $moves[self::DIRECTION_LEFT],
+            'y' => $moves[self::DIRECTION_UP] - $moves[self::DIRECTION_DOWN],
+        ];
+    }
+
+    private static function getCoordinatesString($x, $y) {
+        return "{$x}:{$y}";
     }
 }
