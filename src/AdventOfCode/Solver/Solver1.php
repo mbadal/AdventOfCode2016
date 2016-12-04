@@ -7,13 +7,6 @@ class Solver1 extends SolverAbstract {
     const DIRECTION_UP    = 'U';
     const DIRECTION_DOWN  = 'D';
 
-    /** @var string */
-    protected $riddleInput;
-
-    public function __construct($riddleInput) {
-        $this->riddleInput = $riddleInput;
-    }
-
     public function solve() {
         $items = explode(', ', $this->riddleInput);
 

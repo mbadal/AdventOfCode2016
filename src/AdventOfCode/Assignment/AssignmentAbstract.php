@@ -19,10 +19,5 @@ abstract class AssignmentAbstract {
         $this->reader = new FileReader($filePath);
     }
 
-    public function solve() {
-        $this->reader->readFile();
-        $fileContents = $this->reader->getFileContents();
-        $this->solver = new Solver1($fileContents);
-        $this->solver->solve();
-    }
+    public abstract function solve();
 }
