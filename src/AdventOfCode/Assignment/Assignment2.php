@@ -11,5 +11,6 @@ class Assignment2 extends AssignmentAbstract {
         $fileContents = $this->reader->getFileContents();
         $this->solver = new Solver2($fileContents);
         $this->solver->solve();
+        $this->solver->solveB();
     }
 }
