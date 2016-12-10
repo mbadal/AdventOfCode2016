@@ -12,5 +12,6 @@ class Assignment3 extends AssignmentAbstract {
 
         $solver = new Solver3($fileContents);
         $solver->solve();
+        $solver->solveB();
     }
 }
