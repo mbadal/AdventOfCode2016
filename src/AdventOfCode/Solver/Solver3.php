@@ -4,9 +4,6 @@
 use AdventOfCode\Helper\TriangleHelper;
 
 class Solver3 extends SolverAbstract {
-    public function __construct($riddleInput) {
-        parent::__construct($riddleInput);
-    }
 
     public function solve() {
         $triads = explode("\n", $this->riddleInput);

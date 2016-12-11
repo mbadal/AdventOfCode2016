@@ -6,11 +6,6 @@ use AdventOfCode\Helper\NumericKeypad;
 
 class Solver2 extends SolverAbstract {
 
-    public function __construct($riddleInput) {
-        parent::__construct($riddleInput);
-    }
-
-
     public function solve() {
         $keypad = new NumericKeypad();
         $lines  = explode("\n", $this->riddleInput);
